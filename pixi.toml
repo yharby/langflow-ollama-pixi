@@ -1,0 +1,45 @@
+[workspace]
+authors = ["yharby <me@youssefharby.com>"]
+channels = ["conda-forge"]
+name = "langflow-pixi"
+platforms = ["osx-arm64", "linux-64", "win-64"]
+version = "0.1.0"
+
+[dependencies]
+
+# Ollama environment - lightweight, just for running Ollama server
+[environments]
+ollama = ["ollama"]
+langflow = ["langflow"]
+
+[feature.ollama.dependencies]
+ollama = ">=0.12.5,<0.13"
+
+[feature.ollama.tasks]
+# All Ollama data (models, configs) stored locally in .ollama/ directory
+serve = "OLLAMA_MODELS=.ollama/models OLLAMA_HOST=localhost:11434 OLLAMA_ORIGINS='*' ollama serve"
+pull-embedding = "OLLAMA_MODELS=.ollama/models ollama pull jeffh/intfloat-multilingual-e5-large-instruct:f16"
+test = "curl -s http://localhost:11434/api/tags"
+test-embedding = """curl -s http://localhost:11434/api/embeddings -d '{
+  "model": "jeffh/intfloat-multilingual-e5-large-instruct:f16",
+  "prompt": "Instruct: Retrieve semantically similar text\\nQuery: Hello world"
+}'"""
+list-models = "OLLAMA_MODELS=.ollama/models ollama list"
+
+# Langflow environment - Python-based with all features (fully local)
+[feature.langflow.dependencies]
+python = ">=3.13.0,<3.14"
+pip = ">=25.2,<26"
+
+[feature.langflow.pypi-dependencies]
+# Using SQLite instead of PostgreSQL for fully local setup
+langflow = { version = "*", extras = ["docling", "local"] }
+
+[feature.langflow.tasks]
+run = "langflow run --env-file .env"
+run-dev = "langflow run --env-file .env --reload"
+run-custom = "langflow run --env-file .env --host 0.0.0.0 --port 7860"
+
+# Global tasks that work across environments
+[tasks]
+install-all = { depends-on = ["install-ollama", "install-langflow"] }

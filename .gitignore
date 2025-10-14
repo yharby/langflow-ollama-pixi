@@ -1,0 +1,77 @@
+# Pixi
+.pixi/
+pixi.lock
+
+# Langflow data - all stored locally in project
+*.db
+*.db-journal
+*.db-shm
+*.db-wal
+
+# Ollama models - stored locally in project
+# IMPORTANT: Models can be large (GBs). Uncomment the line below to ignore them:
+.ollama/
+# To track models in git (not recommended for large models), comment out the line above
+
+# Environment variables - NEVER commit these!
+.env
+.env.local
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+ENV/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Logs
+logs/
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# pytest
+.pytest_cache/
+.coverage
+htmlcov/
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# ai agents
+.claude/
