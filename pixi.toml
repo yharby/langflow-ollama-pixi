@@ -33,7 +33,7 @@ pip = ">=25.2,<26"
 
 [feature.langflow.pypi-dependencies]
 # Using SQLite instead of PostgreSQL for fully local setup
-langflow = { version = ">=1.6.4", extras = ["local"] }
+langflow = { version = ">=1.6.4"}
 
 [feature.langflow.tasks]
 run = "langflow run --env-file .env"
