@@ -28,12 +28,12 @@ list-models = "OLLAMA_MODELS=.ollama/models ollama list"
 
 # Langflow environment - Python-based with all features (fully local)
 [feature.langflow.dependencies]
-python = ">=3.13.0,<3.14"
+python = ">=3.12.0,<3.13"
 pip = ">=25.2,<26"
 
 [feature.langflow.pypi-dependencies]
 # Using SQLite instead of PostgreSQL for fully local setup
-langflow = { version = "*", extras = ["docling", "local"] }
+langflow = { version = ">=1.6.4", extras = ["local"] }
 
 [feature.langflow.tasks]
 run = "langflow run --env-file .env"
