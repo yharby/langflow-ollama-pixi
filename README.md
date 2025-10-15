@@ -11,6 +11,10 @@ Fully local setup with multi-platform support using Pixi.
 
 ## Quick Start
 
+pre-requisite: pixi
+
+First you should copy the `.env.example` file to `.env` and edit it to your liking.
+
 ```bash
 # 1. Install environments
 pixi install
@@ -29,22 +33,29 @@ Access:
 - Langflow: http://localhost:7860
 - Ollama: http://localhost:11434
 
-## Configuration
+## Run using tmux
 
-### Environment Variables (.env)
+To run both Ollama and Langflow in separate tmux sessions:
 
-Key settings (edit `.env` file):
+```bash
+# Start Ollama session
+tmux new-session -d -s ollama "pixi run --environment ollama serve"
 
-```env
-# Langflow
-LANGFLOW_HOST=0.0.0.0
-LANGFLOW_PORT=7860
-LANGFLOW_DATABASE_URL=sqlite:///.langflow/langflow.db
-
-# Ollama (set in pixi.toml tasks)
-OLLAMA_MODELS=.ollama/models
-OLLAMA_BASE_URL=http://0.0.0.0:11434
+# Start Langflow session
+tmux new-session -d -s langflow "pixi run --environment langflow run"
 ```
+To attach to a tmux session:
+```bash
+tmux attach -t ollama
+tmux attach -t langflow
+```
+
+To detach from a tmux session:
+```bash
+ctrl+b then d alone to Detaches 
+```
+
+
 
 ### Project Structure
 
