@@ -32,6 +32,9 @@ python = ">=3.12.0,<3.13"
 pip = ">=25.2,<26"
 setuptools = ">=78,<79"
 compilers = ">=1.11.0,<1.12.0"
+pnpm = ">=10.18.3,<11"
+npx = ">=0.1.1,<0.2"
+nodejs = ">=22.19.0,<24.10"
 
 [feature.langflow.pypi-dependencies]
 # Using SQLite instead of PostgreSQL for fully local setup

@@ -121,3 +121,10 @@ LANGFLOW_AUTO_LOGIN=false
 LANGFLOW_SUPERUSER=admin
 LANGFLOW_SUPERUSER_PASSWORD=your-secure-password
 ```
+
+### More dependencies
+
+Add pnpm to the langflow environment:
+```bash
+pixi add --feature langflow pnpm
+```
