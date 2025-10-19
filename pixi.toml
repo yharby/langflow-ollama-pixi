@@ -18,7 +18,8 @@ ollama = ">=0.12.5,<0.13"
 [feature.ollama.tasks]
 # All Ollama data (models, configs) stored locally in .ollama/ directory
 serve = "OLLAMA_MODELS=.ollama/models OLLAMA_HOST=localhost:11434 OLLAMA_ORIGINS='*' ollama serve"
-pull-embedding = "OLLAMA_MODELS=.ollama/models ollama pull jeffh/intfloat-multilingual-e5-large-instruct:f16"
+pull-embedding = "OLLAMA_MODELS=.ollama/models ollama pull jeffh/intfloat-multilingual-e5-large-instruct:f32"
+pull-reranker = "OLLAMA_MODELS=.ollama/models ollama pull xitao/bge-reranker-v2-m3"
 test = "curl -s http://localhost:11434/api/tags"
 test-embedding = """curl -s http://localhost:11434/api/embeddings -d '{
   "model": "jeffh/intfloat-multilingual-e5-large-instruct:f16",
@@ -39,6 +40,10 @@ nodejs = ">=22.19.0,<24.10"
 [feature.langflow.pypi-dependencies]
 # Using SQLite instead of PostgreSQL for fully local setup
 langflow = { version = ">=1.6.4"}
+langchain-docling = ">=1.1.0, <2"
+tesserocr = ">=2.9.1, <3"
+rapidocr-onnxruntime = ">=1.4.4, <2"
+webrtcvad = ">=2.0.10, <3"
 
 [feature.langflow.tasks]
 run = "langflow run --env-file .env"
