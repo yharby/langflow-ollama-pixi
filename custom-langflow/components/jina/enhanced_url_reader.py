@@ -1,7 +1,6 @@
 import re
 import requests
 from typing import List, Dict, Any, Optional
-from bs4 import BeautifulSoup
 
 from langflow.custom.custom_component.component import Component
 from langflow.field_typing.range_spec import RangeSpec
@@ -29,17 +28,20 @@ URL_REGEX = re.compile(
 class EnhancedURLComponent(Component):
     """A component that loads and parses content from web pages using Jina Reader API.
 
-    This enhanced component uses Jina Reader API (https://r.jina.ai/) to:
+    This component uses Jina Reader API (https://r.jina.ai/) to:
     - Convert any URL to clean, LLM-friendly markdown text
     - Handle JavaScript-rendered pages automatically
     - Extract main content while ignoring navigation and ads
     - Support PDF extraction from URLs
     - Provide image captions when enabled
-    - Handle complex websites that traditional scrapers struggle with
+    - Handle complex websites with proper UTF-8 encoding
+
+    Free tier: 20 requests/minute (no API key needed)
+    With API key: 200 requests/minute
     """
 
-    display_name = "Enhanced URL Reader"
-    description = "Fetch content from web pages using Jina Reader API for better content extraction."
+    display_name = "Enhanced URL Reader (Jina)"
+    description = "Fetch and extract web content using Jina Reader API with automatic UTF-8 encoding support."
     documentation: str = "https://docs.langflow.org/components-data#url"
     icon = "layout-template"
     name = "EnhancedURLComponent"
@@ -58,14 +60,7 @@ class EnhancedURLComponent(Component):
         SecretStrInput(
             name="jina_api_key",
             display_name="Jina API Key",
-            info="Optional: Provide a Jina API key for higher rate limits (200 RPM with key vs 20 RPM without). Get your key at https://jina.ai/reader/",
-            required=False,
-        ),
-        BoolInput(
-            name="use_jina_reader",
-            display_name="Use Jina Reader API",
-            info="If enabled, uses Jina Reader API for better content extraction. If disabled, falls back to traditional scraping.",
-            value=True,
+            info="Optional: Provide your Jina API key for higher rate limits (200 requests/minute vs 20 requests/minute for free tier). Get your key at https://jina.ai/reader/",
             required=False,
         ),
         DropdownInput(
@@ -252,7 +247,12 @@ class EnhancedURLComponent(Component):
         Returns:
             Dict[str, Any]: Dictionary containing the fetched content and metadata
         """
-        jina_url = f"{JINA_READER_BASE_URL}{url}"
+        # Check if URL already starts with Jina Reader base URL to avoid duplication
+        if url.startswith(JINA_READER_BASE_URL):
+            jina_url = url
+        else:
+            jina_url = f"{JINA_READER_BASE_URL}{url}"
+
         headers = self._build_jina_headers()
         
         try:
@@ -264,7 +264,10 @@ class EnhancedURLComponent(Component):
                 timeout=self.timeout if self.timeout else DEFAULT_TIMEOUT
             )
             response.raise_for_status()
-            
+
+            # Always ensure UTF-8 encoding for proper handling of Arabic, Chinese, and other non-Latin text
+            response.encoding = response.apparent_encoding or 'utf-8'
+
             # Handle different response formats
             if self.format == "JSON":
                 try:
@@ -274,8 +277,9 @@ class EnhancedURLComponent(Component):
                         "url": data.get("url", url),
                         "title": data.get("title", "")
                     }
-                except:
+                except (ValueError, requests.exceptions.JSONDecodeError) as e:
                     # If JSON parsing fails, treat as text
+                    logger.warning(f"Failed to parse JSON response, falling back to text: {e}")
                     return {
                         "text": response.text,
                         "url": url,
@@ -306,44 +310,6 @@ class EnhancedURLComponent(Component):
             logger.error(f"Error fetching URL with Jina Reader: {e}")
             raise ValueError(f"Failed to fetch {url} with Jina Reader: {e}")
 
-    def _fetch_traditional(self, url: str) -> Dict[str, Any]:
-        """Fallback method using traditional web scraping (without Jina Reader).
-
-        Args:
-            url: The URL to fetch
-
-        Returns:
-            Dict[str, Any]: Dictionary containing the fetched content and metadata
-        """
-        try:
-            headers = {"User-Agent": get_settings_service().settings.user_agent}
-            response = requests.get(
-                url,
-                headers=headers,
-                timeout=self.timeout if self.timeout else DEFAULT_TIMEOUT
-            )
-            response.raise_for_status()
-            
-            # Extract content based on format
-            if self.format == "HTML":
-                content = response.text
-            else:
-                soup = BeautifulSoup(response.text, "lxml")
-                # Try to extract title
-                title = soup.title.string if soup.title else ""
-                # Extract text content
-                content = soup.get_text(separator="\n", strip=True)
-            
-            return {
-                "text": content,
-                "url": url,
-                "title": title if self.format != "HTML" else ""
-            }
-            
-        except requests.exceptions.RequestException as e:
-            logger.error(f"Error fetching URL with traditional method: {e}")
-            raise ValueError(f"Failed to fetch {url}: {e}")
-
     def fetch_url_contents(self) -> List[Dict[str, Any]]:
         """Load documents from the configured URLs.
 
@@ -365,15 +331,11 @@ class EnhancedURLComponent(Component):
             
             for url in urls:
                 logger.debug(f"Processing URL: {url}")
-                
+
                 try:
-                    if self.use_jina_reader:
-                        # Use Jina Reader API
-                        doc_data = self._fetch_with_jina_reader(url)
-                    else:
-                        # Use traditional scraping
-                        doc_data = self._fetch_traditional(url)
-                    
+                    # Always use Jina Reader API (the purpose of this component)
+                    doc_data = self._fetch_with_jina_reader(url)
+
                     # Clean and add the document
                     doc_data["text"] = safe_convert(doc_data["text"], clean_data=True)
                     all_docs.append(doc_data)
