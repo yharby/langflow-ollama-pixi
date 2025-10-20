@@ -1,12 +1,13 @@
-# Langflow + Ollama (100% Local)
+# Langflow + Ollama + olmOCR (Pixi)
 
-Fully local setup with multi-platform support using Pixi.
+Fully local AI workflow platform with multi-platform support.
 
 ## Features
 
 - **100% Local**: All models and data in project directory
-- **Multi-platform**: macOS ARM64, Linux x64, Windows x64
-- **Isolated environments**: Separate Ollama and Langflow environments
+- **Multi-platform**: macOS ARM64, Linux x64, Windows x64, Linux ARM64
+- **Isolated environments**: Ollama, Langflow, and olmOCR environments
+- **PDF OCR**: Vision Language Model-based PDF to Markdown conversion
 - **No external DB**: SQLite only
 
 ## Quick Start
@@ -61,14 +62,14 @@ ctrl+b then d alone to Detaches
 
 ```
 .
-├── pixi.toml           # Multi-env config
-├── .env                # Langflow settings
-├── .pixi/              # Pixi environments
-├── .ollama/models/     # Ollama models (1+ GB)
-└── .langflow/          # Langflow DB & logs
+├── pixi.toml              # Multi-env config
+├── .env                   # Settings
+├── custom-langflow/       # Custom components
+│   └── components/olmocr/ # olmOCR component + docs
+└── scripts/olmocr/        # CLI tools (testing/detection)
 ```
 
-All data directories (`.pixi/`, `.ollama/`, `.langflow/`) are gitignored.
+Data directories (`.pixi/`, `.ollama/`, `.langflow/`) are gitignored.
 
 ## Available Tasks
 
@@ -88,6 +89,15 @@ pixi run --environment ollama test-embedding     # Test embeddings
 pixi run --environment langflow run              # Start Langflow
 pixi run --environment langflow run-dev          # With auto-reload
 ```
+
+### olmOCR Environment
+
+```bash
+pixi run --environment olmocr detect             # Detect GPU/CPU
+```
+
+**For PDF conversion**: Use the olmOCR component in Langflow UI
+**Documentation**: `custom-langflow/components/olmocr/README.md`
 
 ## Using Ollama in Langflow
 
