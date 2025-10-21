@@ -12,6 +12,7 @@ version = "0.1.0"
 ollama = ["ollama"]
 langflow = ["langflow"]
 olmocr = ["olmocr"]
+filebrowser = ["filebrowser"]
 
 [feature.ollama.dependencies]
 ollama = ">=0.12.5,<0.13"
@@ -82,6 +83,26 @@ qpdf = ">=12.2.0,<13"
 
 [feature.olmocr.target.win-64.dependencies]
 qpdf = ">=12.2.0,<13"
+
+# Filebrowser environment - Web-based file management
+[feature.filebrowser.dependencies]
+python = ">=3.12,<3.13"
+
+[feature.filebrowser.tasks]
+# Install filebrowser binary (auto-detects OS and architecture)
+install = "python scripts/filebrowser/install.py"
+# Install specific version
+install-version = "python scripts/filebrowser/install.py --version"
+# Run filebrowser (auto-installs if needed, uses config.yaml)
+run = "python scripts/filebrowser/run.py"
+# Run with network access (listens on all interfaces)
+run-network = "python scripts/filebrowser/run.py -a 0.0.0.0"
+# Run with custom port and network access
+run-custom = "python scripts/filebrowser/run.py -p 9000 -a 0.0.0.0"
+# Show filebrowser version
+version = "python scripts/filebrowser/run.py version"
+# Show filebrowser help
+help = "python scripts/filebrowser/run.py --help"
 
 # Global tasks that work across environments
 [tasks]

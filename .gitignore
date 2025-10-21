@@ -13,6 +13,10 @@ pixi.lock
 .ollama/
 # To track models in git (not recommended for large models), comment out the line above
 
+# Filebrowser - config copied to root for runtime
+config.yaml
+# Note: The source config is in scripts/filebrowser/config.yaml (tracked in git)
+
 # Environment variables - NEVER commit these!
 .env
 .env.local
@@ -75,3 +79,5 @@ dmypy.json
 
 # ai agents
 .claude/
+*.db.bak
+bin/
