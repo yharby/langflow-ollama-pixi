@@ -41,7 +41,7 @@ uv = ">=0.9.4,<0.10"
 
 [feature.langflow.pypi-dependencies]
 # Using SQLite instead of PostgreSQL for fully local setup
-langflow = { version = ">=1.6.4"}
+langflow = { version = ">=1.6.5"}
 langchain-docling = ">=1.1.0, <2"
 tesserocr = ">=2.9.1, <3"
 rapidocr-onnxruntime = ">=1.4.4, <2"
