@@ -1,3 +1,5 @@
-from .olmocr_simple import OlmOCRSimple
+from .olmocr_api import OlmOCRAPI
+from .olmocr_local import OlmOCRLocal
+from .olmocr_with_model import OlmOCRWithModel
 
-__all__ = ["OlmOCRSimple"]
+__all__ = ["OlmOCRAPI", "OlmOCRLocal", "OlmOCRWithModel"]
