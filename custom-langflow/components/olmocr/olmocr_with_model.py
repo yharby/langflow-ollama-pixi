@@ -4,7 +4,7 @@ olmOCR Component with Language Model Input
 Connect any Language Model component (LM Studio, OpenAI, etc.) to olmOCR.
 Automatically extracts the API endpoint and credentials from the connected model.
 
-Author: Context Gem
+Author: Youssef Harby
 License: Apache 2.0
 """
 

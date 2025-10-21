@@ -3,7 +3,7 @@ olmOCR Remote API Component
 
 Use external API services (DeepInfra, self-hosted vLLM, etc.) for PDF conversion.
 
-Author: Context Gem
+Author: Youssef Harby
 License: Apache 2.0
 """
 

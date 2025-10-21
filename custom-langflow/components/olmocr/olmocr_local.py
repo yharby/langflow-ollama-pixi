@@ -4,7 +4,7 @@ olmOCR Local GPU Component
 Auto-detect and use local NVIDIA GPU for PDF conversion.
 Requires NVIDIA GPU with CUDA 12.8+ and 15GB+ VRAM.
 
-Author: Context Gem
+Author: Youssef Harby
 License: Apache 2.0
 """
 
