@@ -110,6 +110,11 @@ class OlmOCRJSONLParser(Component):
             name="data_output",
             method="parse_jsonl",
         ),
+        Output(
+            display_name="DataFrame",
+            name="dataframe_output",
+            method="get_dataframe",
+        ),
     ]
 
     def __init__(self, **kwargs):
@@ -122,6 +127,34 @@ class OlmOCRJSONLParser(Component):
         if not self.language_filter or not self.language_filter.strip():
             return []
         return [lang.strip().lower() for lang in self.language_filter.split(",") if lang.strip()]
+ 
+    def get_dataframe(self) -> DataFrame:
+        """Convert the parsed chunks to a DataFrame for Loop component compatibility."""
+        # First ensure we have parsed the data
+        chunks = self.parse_jsonl()
+        
+        if not chunks:
+            # Return empty DataFrame
+            return DataFrame(data=[])
+        
+        # Convert Data objects to DataFrame rows
+        rows = []
+        for chunk in chunks:
+            # Create a row with text and flattened metadata
+            row = {
+                "text": chunk.text,
+                "source_file": chunk.data.get("source_file", ""),
+                "page_number": chunk.data.get("page_number", 0),
+                "language": chunk.data.get("language", "unknown"),
+                "has_table": chunk.data.get("has_table", False),
+                "has_diagram": chunk.data.get("has_diagram", False),
+                "char_count": chunk.data.get("char_count", 0),
+                "chunk_index": chunk.data.get("chunk_index", 0),
+                "chunking_strategy": chunk.data.get("chunking_strategy", "page"),
+            }
+            rows.append(row)
+        
+        return DataFrame(data=rows)
 
     def _chunk_by_page(self, text: str, page_boundaries: list, metadata: dict, attributes: dict) -> list[Data]:
         """Create one chunk per page."""
