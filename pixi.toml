@@ -42,7 +42,7 @@ numpy = ">=2.2.0,<2.3.0"
 
 [feature.langflow.pypi-dependencies]
 # Using SQLite instead of PostgreSQL for fully local setup
-langflow-nightly = { version = ">=1.6.5.dev2"}
+langflow-nightly = { version = ">=1.6.5.dev5"}
 langchain-docling = ">=1.1.0, <2"
 rapidocr-onnxruntime = ">=1.4.4, <2"
 
