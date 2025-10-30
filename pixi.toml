@@ -42,9 +42,21 @@ numpy = ">=2.2.0,<2.3.0"
 
 [feature.langflow.pypi-dependencies]
 # Using SQLite instead of PostgreSQL for fully local setup
-langflow-nightly = { version = ">=1.6.5.dev5"}
 langchain-docling = ">=1.1.0, <2"
 rapidocr-onnxruntime = ">=1.4.4, <2"
+
+# Platform-specific dependencies - langflow-nightly only for non-Windows platforms
+[feature.langflow.target.osx-arm64.pypi-dependencies]
+langflow-nightly = { version = ">=1.6.5.dev5"}
+
+[feature.langflow.target.linux-64.pypi-dependencies]
+langflow-nightly = { version = ">=1.6.5.dev5"}
+
+[feature.langflow.target.linux-aarch64.pypi-dependencies]
+langflow-nightly = { version = ">=1.6.5.dev5"}
+
+[feature.langflow.target.win-64.pypi-dependencies]
+langflow-nightly = { version = ">=1.6.5.dev2"}
 
 [feature.langflow.tasks]
 run = "langflow run --env-file .env"
@@ -81,6 +93,8 @@ qpdf = ">=12.2.0,<13"
 
 [feature.olmocr.target.win-64.dependencies]
 qpdf = ">=12.2.0,<13"
+
+
 
 # Global tasks that work across environments
 [tasks]
