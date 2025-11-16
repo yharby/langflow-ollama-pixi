@@ -47,13 +47,13 @@ rapidocr-onnxruntime = ">=1.4.4, <2"
 
 # Platform-specific dependencies - langflow-nightly only for non-Windows platforms
 [feature.langflow.target.osx-arm64.pypi-dependencies]
-langflow-nightly = { version = ">=1.6.5.dev5"}
+langflow-nightly = { version = ">=1.7.0.dev10"}
 
 [feature.langflow.target.linux-64.pypi-dependencies]
-langflow-nightly = { version = ">=1.6.5.dev5"}
+langflow-nightly = { version = ">=1.7.0.dev10"}
 
 [feature.langflow.target.linux-aarch64.pypi-dependencies]
-langflow-nightly = { version = ">=1.6.5.dev5"}
+langflow-nightly = { version = ">=1.7.0.dev10"}
 
 [feature.langflow.target.win-64.pypi-dependencies]
 langflow-nightly = { version = ">=1.6.5.dev4"}
