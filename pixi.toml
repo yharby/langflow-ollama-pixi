@@ -34,26 +34,26 @@ python = ">=3.12.0,<3.13"
 pip = ">=25.2,<26"
 setuptools = ">=78,<79"
 compilers = ">=1.11.0,<1.12.0"
-pnpm = ">=10.18.3,<11"
+pnpm = ">=10.22.0,<11"
 npx = ">=0.1.1,<0.2"
 nodejs = ">=22.19.0,<24.10"
-uv = ">=0.9.4,<0.10"
+uv = ">=0.9.10,<0.10"
 numpy = ">=2.2.0,<2.3.0"
 
 [feature.langflow.pypi-dependencies]
 # Using SQLite instead of PostgreSQL for fully local setup
-langchain-docling = ">=1.1.0, <2"
+langchain-docling = ">=1.1.0, <3"
 rapidocr-onnxruntime = ">=1.4.4, <2"
 
 # Platform-specific dependencies - langflow-nightly only for non-Windows platforms
 [feature.langflow.target.osx-arm64.pypi-dependencies]
-langflow-nightly = { version = ">=1.7.0.dev10"}
+langflow-nightly = { version = ">=1.7.0.dev12"}
 
 [feature.langflow.target.linux-64.pypi-dependencies]
-langflow-nightly = { version = ">=1.7.0.dev10"}
+langflow-nightly = { version = ">=1.7.0.dev12"}
 
 [feature.langflow.target.linux-aarch64.pypi-dependencies]
-langflow-nightly = { version = ">=1.7.0.dev10"}
+langflow-nightly = { version = ">=1.7.0.dev12"}
 
 [feature.langflow.target.win-64.pypi-dependencies]
 langflow-nightly = { version = ">=1.6.5.dev4"}
@@ -68,7 +68,7 @@ run-custom = "langflow run --env-file .env --host 0.0.0.0 --port 7860"
 python = ">=3.12,<3.13"
 
 [feature.olmocr.pypi-dependencies]
-olmocr = ">=0.3.9, <0.4"
+olmocr = ">=0.4.6, <0.5"
 
 [feature.olmocr.tasks]
 # Run PDF conversion with auto device detection
